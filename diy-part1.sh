@@ -37,6 +37,7 @@ ADD_FH_IDENTITY=true   # fiberhome 身份布局注入：ONU→硬件身份页可
                        #   0x2000(8192)  Base MAC  6B 二进制          -> mac-binary6
                        #   0x2010(8208)  PON SN    4厂商+4字节       -> pon-binary8
                        #   0x2020(8224)  整机SN    32B ASCII         -> serial-text
+ADD_OWQ_WOL=true       # luci-app-owq-wol（网络唤醒，依赖 etherwake）                       
 
 clone() {  # clone <url> <dir> [branch]
   local url="$1" dir="$2" br="$3"
@@ -103,6 +104,9 @@ if [ "$ADD_LUCI_APP" = "true" ]; then
 
   rm -rf "$LUCI_APP_TMP"
 fi
+
+if [ "$ADD_OWQ_WOL" = "true" ]; then
+  clone https://github.com/isalikai/luci-app-owq-wol "$PKG_DIR/luci-app-owq-wol" main
 
 # =========================================================
 # 3. fiberhome 身份字段布局注入（target 侧 board.d）
@@ -277,6 +281,8 @@ echo "tmp/.packageinfo 包总数: $(grep -c '^Package: ' tmp/.packageinfo 2>/dev
 echo "=========================================="
 
 # 必装包（config 里是 =y）必须全部进索引，否则 defconfig 会静默剔除
+[ "$ADD_OWQ_WOL"   = "true" ] && REQUIRED="$REQUIRED luci-app-owq-wol"
+true
 REQUIRED="airoha-pond airoha-ponctl airoha-pon-debug luci-app-onu luci-app-airoha-npu"
 if [ "$ADD_LUCI_APP" = "true" ]; then
   REQUIRED="$REQUIRED luci-app-natmode luci-app-pon-status"
