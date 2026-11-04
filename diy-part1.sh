@@ -107,6 +107,7 @@ fi
 
 if [ "$ADD_OWQ_WOL" = "true" ]; then
   clone https://github.com/isalikai/luci-app-owq-wol "$PKG_DIR/luci-app-owq-wol" main
+fi
 
 # =========================================================
 # 3. fiberhome 身份字段布局注入（target 侧 board.d）
