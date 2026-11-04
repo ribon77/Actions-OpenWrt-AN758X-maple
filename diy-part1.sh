@@ -56,6 +56,10 @@ clone() {  # clone <url> <dir> [branch]
   return 1
 }
 
+if [ "$ADD_OWQ_WOL" = "true" ]; then
+  clone https://github.com/isalikai/luci-app-owq-wol "$PKG_DIR/luci-app-owq-wol" main
+fi
+
 # =========================================================
 # 1. firewall4 补丁：zone device 也参与 flowtable 卸载解析
 #
@@ -105,9 +109,7 @@ if [ "$ADD_LUCI_APP" = "true" ]; then
   rm -rf "$LUCI_APP_TMP"
 fi
 
-if [ "$ADD_OWQ_WOL" = "true" ]; then
-  clone https://github.com/isalikai/luci-app-owq-wol "$PKG_DIR/luci-app-owq-wol" main
-fi
+
 
 # =========================================================
 # 3. fiberhome 身份字段布局注入（target 侧 board.d）
@@ -282,8 +284,7 @@ echo "tmp/.packageinfo 包总数: $(grep -c '^Package: ' tmp/.packageinfo 2>/dev
 echo "=========================================="
 
 # 必装包（config 里是 =y）必须全部进索引，否则 defconfig 会静默剔除
-[ "$ADD_OWQ_WOL"   = "true" ] && REQUIRED="$REQUIRED luci-app-owq-wol"
-true
+
 REQUIRED="airoha-pond airoha-ponctl airoha-pon-debug luci-app-onu luci-app-airoha-npu"
 if [ "$ADD_LUCI_APP" = "true" ]; then
   REQUIRED="$REQUIRED luci-app-natmode luci-app-pon-status"
@@ -296,5 +297,6 @@ if [ -n "$HARD_MISS" ]; then
   echo "::error::以下必装包未进入 tmp/.packageinfo，defconfig 会把 .config 里的 =y 静默剔除:$HARD_MISS"
   exit 1
 fi
-
+[ "$ADD_OWQ_WOL"   = "true" ] && REQUIRED="$REQUIRED luci-app-owq-wol"
+true
 echo "🎉 diy-part1.sh 执行完毕"
