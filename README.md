@@ -22,7 +22,7 @@
    - 新增 `CONFIG_BUSYBOX_CONFIG_DEVMEM=y` + `CONFIG_KERNEL_DEVMEM=y`
      （naoki66 版 airoha-npu 状态页的 Frame Engine 寄存器读取依赖 devmem）
    - 追加 naoki66 luci-app-airoha 其余 5 个插件的注释行，按需取消注释
-   - 注释luci-app-rtp2httpd，取消注释luci-app-owq-wol
+   - 注释luci-app-rtp2httpd
 3. **diy-part1.sh 重写**：
    - 把 OpenWrt_ONU_CONFIG 自带的 `patches/firewall4/010-fw4-zone-device-flowtable.patch`
      拷到  `package/network/config/firewall4(feeds/packages/net/firewall4/patches/)`（zone device 也参与 flowtable
