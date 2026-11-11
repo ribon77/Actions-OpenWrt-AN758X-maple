@@ -64,7 +64,7 @@ clone() {  # clone <url> <dir> [branch]
 #    feeds/packages/net/firewall4/patches/，编译 firewall4 时由 quilt 应用。
 # =========================================================
 if [ "$ADD_FW4_PATCH" = "true" ]; then
-  FW4_DIR="feeds/packages/net/firewall4"
+  FW4_DIR="package/network/config/firewall4/"
   FW4_PATCH_SRC=$(ls feeds/pon_userspace/patches/firewall4/*.patch 2>/dev/null | head -1)
 
   if [ -z "$FW4_PATCH_SRC" ]; then
